@@ -21,6 +21,7 @@ enum spirits {
 
 #Basic movement variables
 @onready var _animated_sprite = $AnimatedSprite2D
+@onready var _animation_player = $AnimationPlayer
 var speed = 300.0
 var jump_speed = -400.0
 var air_friction = 0.20
@@ -58,6 +59,9 @@ func _ready():
 	_dash_cooldown_timer.wait_time = dash_cooldown
 	_wall_bounce_timer.wait_time = wall_bounce_frames / 60.0
 	character_state = possible_states.on_ground
+	_animation_player.play("run_right")
+	_animation_player.stop()
+	
 	
 func _on_coyote_timer_timeout():
 	print("Coyote Time over")
@@ -71,11 +75,11 @@ func get_input():
 	var wall_grab = Input.is_action_pressed("wall_grab")
 	
 	if dir > 0:
-		_animated_sprite.set_flip_h(false)
-		_animated_sprite.play("run")
+		#_animated_sprite.set_flip_h(false)
+		_animation_player.play("run_right")
 	if dir < 0:
-		_animated_sprite.set_flip_h(true)
-		_animated_sprite.play("run")
+		#_animated_sprite.set_flip_h(true)
+		_animation_player.play("run_left")
 
 	if dir != 0:
 		if character_state == possible_states.wall_grab:
@@ -116,7 +120,7 @@ func get_input():
 		
 	
 	if dir == 0 or not is_on_floor():
-		_animated_sprite.stop()
+		_animation_player.stop()
 
 func _physics_process(delta):
 	if gravity_on:

@@ -1,17 +1,54 @@
-[gd_scene load_steps=12 format=3 uid="uid://bm4j34ta538qf"]
+[gd_scene load_steps=24 format=3 uid="uid://bm4j34ta538qf"]
 
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_snlkj"]
 [ext_resource type="Texture2D" uid="uid://ctg8kaofyvyt2" path="res://assets/run_animation/run-1.png" id="2_6r3t6"]
+[ext_resource type="Texture2D" uid="uid://ct6i07nykonto" path="res://assets/run_animation/run-1 - Copy.png" id="2_n6abm"]
+[ext_resource type="Texture2D" uid="uid://cxkdkp5rw17ie" path="res://assets/run_animation/run-2 - Copy.png" id="3_3y32o"]
 [ext_resource type="Texture2D" uid="uid://boq5vcuiabpmu" path="res://assets/run_animation/run-2.png" id="3_cpb7f"]
 [ext_resource type="Texture2D" uid="uid://f7ppq6tposf3" path="res://assets/run_animation/run-3.png" id="4_araq2"]
+[ext_resource type="Texture2D" uid="uid://dvnhgq0u48qld" path="res://assets/run_animation/run-3 - Copy.png" id="4_g3dfc"]
+[ext_resource type="Texture2D" uid="uid://bpcvb0nfs3c3r" path="res://assets/run_animation/run-4 - Copy.png" id="5_15uoj"]
 [ext_resource type="Texture2D" uid="uid://dmjbvp0v4jo8b" path="res://assets/run_animation/run-4.png" id="5_jj1gw"]
 [ext_resource type="Texture2D" uid="uid://bsxqpeln3s1sc" path="res://assets/run_animation/run-5.png" id="6_7gkc7"]
+[ext_resource type="Texture2D" uid="uid://d3nk5fbxobr0a" path="res://assets/run_animation/run-5 - Copy.png" id="6_lofgj"]
 [ext_resource type="Texture2D" uid="uid://3s3bhc08q0yj" path="res://assets/run_animation/run-6.png" id="7_n7cxn"]
+[ext_resource type="Texture2D" uid="uid://co5vvept4i3jx" path="res://assets/run_animation/run-6 - Copy.png" id="7_tnkqp"]
 [ext_resource type="Texture2D" uid="uid://dc5xsmui8iy8e" path="res://assets/run_animation/run-7.png" id="8_kg6xy"]
+[ext_resource type="Texture2D" uid="uid://djulufyjtfdyn" path="res://assets/run_animation/run-7 - Copy.png" id="8_mfejd"]
+[ext_resource type="Texture2D" uid="uid://dyqg7ymnt3jpr" path="res://assets/run_animation/run-8 - Copy.png" id="9_138uw"]
 [ext_resource type="Texture2D" uid="uid://dxe0cypwhsjqp" path="res://assets/run_animation/run-8.png" id="9_c2s48"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bptki"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n6abm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3y32o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_g3dfc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_15uoj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_lofgj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tnkqp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mfejd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_138uw")
+}],
+"loop": true,
+"name": &"run_left",
+"speed": 20.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_6r3t6")
@@ -38,13 +75,107 @@ animations = [{
 "texture": ExtResource("9_c2s48")
 }],
 "loop": true,
-"name": &"run",
+"name": &"run_right",
 "speed": 20.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_snqo0"]
 radius = 20.0
 height = 62.0
+
+[sub_resource type="Animation" id="Animation_rwwym"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"run"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_mat01"]
+resource_name = "run_left"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"run_left"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_sfxm6"]
+resource_name = "run_right"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"run_right"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nddi5"]
+_data = {
+"RESET": SubResource("Animation_rwwym"),
+"run_left": SubResource("Animation_mat01"),
+"run_right": SubResource("Animation_sfxm6")
+}
 
 [node name="Player" type="Node2D"]
 
@@ -54,6 +185,7 @@ script = ExtResource("1_snlkj")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_bptki")
 animation = &"run"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(0, 7)
@@ -70,6 +202,11 @@ one_shot = true
 
 [node name="WallBounceTimer" type="Timer" parent="CharacterBody2D"]
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody2D"]
+libraries = {
+"": SubResource("AnimationLibrary_nddi5")
+}
 
 [connection signal="timeout" from="CharacterBody2D/CoyoteTimer" to="CharacterBody2D" method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]
