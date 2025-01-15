@@ -43,17 +43,20 @@ var dashed = false # Whether or not we just dashed
 var dash_speed = 2500 # How strong the initial burst of speed is on the dash
 
 #Wall grab/bounce variables
+@onready var _wall_bounce_timer = $WallBounceTimer
 var gravity_on = true # Gravity toggle so that we can let the player grab the wall
 var was_on_wall = false # Previous state of is_on_wall so that we can make wall grabbing difficult in terms of timing
-
+var wall_bounce_frames = 6 # For how many frames a wall bounce is available when you hit a wall
+var wall_bounce_available = false # Whether or not we can currently wall bounce
 
 # Get the gravity from the project settings so you can sync with rigid body nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
-	#print("Character initialized with gravity of ", gravity)
+	print("Character initialized with gravity of ", gravity)
 	_coyote_timer.wait_time = coyote_frames / 60.0
 	_dash_cooldown_timer.wait_time = dash_cooldown
+	_wall_bounce_timer.wait_time = wall_bounce_frames / 60.0
 	character_state = possible_states.on_ground
 	
 func _on_coyote_timer_timeout():
@@ -125,28 +128,38 @@ func _physics_process(delta):
 	move_and_slide()
 	# move_and_slide is the function that sets the on floor variable, 
 	# so we should check for jumping after move_and_slide and update state
-	if is_on_floor():
+	if is_on_floor(): # Basic on floor case
 		character_state = possible_states.on_ground
-	if jumping and is_on_floor():
+	if jumping and is_on_floor(): # Just landed from being in the air
 		jumping = false
-	if not is_on_floor() and not is_on_wall():
+	if not is_on_floor() and not is_on_wall(): # Mid air case
 		character_state = possible_states.mid_air
-	if (is_on_floor() or coyote or (not was_on_wall and is_on_wall()) or character_state == possible_states.wall_grab) and Input.is_action_just_pressed('jump'):
-			if not was_on_wall and is_on_wall() or character_state == possible_states.wall_grab:
-				#If you jump on the first frame you hit the wall, you get a wall bounce
+	if not was_on_wall and is_on_wall(): # Just hit a wall case
+		wall_bounce_available = true
+		print("Wall bounce available")
+		_wall_bounce_timer.start()
+		
+	# Deal with jumping after move and slide because we need up to date positional/collision information
+	if (is_on_floor() or coyote or (wall_bounce_available) or character_state == possible_states.wall_grab) and Input.is_action_just_pressed('jump'):
+			if wall_bounce_available or character_state == possible_states.wall_grab:
+				#If you jump on the first few frames after you hit the wall, you get a wall bounce
 				print("Wall jump")
 				velocity.x = -speed
-			if not was_on_wall and is_on_wall(): #Reward player for wall bounce with extra jump height
+			if wall_bounce_available: #Reward player for wall bounce with extra jump height
 				velocity.y = jump_speed * 1.5
 			else:
 				velocity.y = jump_speed
 			jumping = true
 			character_state = possible_states.jumping
 	#print("On_floor: ", is_on_floor(), "Last_floor: ", last_floor, ", Jumping: ", jumping)
+	
+	# Coyote time case
 	if not is_on_floor() and last_floor and not jumping:
 		coyote = true
 		print("Entering Coyote Time")
 		$CoyoteTimer.start()
+		
+	# Update bookkeeping vars
 	last_floor = is_on_floor()
 	was_on_wall = is_on_wall()
 
@@ -158,3 +171,8 @@ func _on_button_pressed() -> void:
 
 func _on_dash_cooldown_timeout() -> void:
 	dashed = false
+
+
+func _on_wall_bounce_timer_timeout() -> void:
+	wall_bounce_available = false
+	print("Wall bounce window closed")

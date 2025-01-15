@@ -11,16 +11,17 @@ config_version=5
 [application]
 
 config/name="FirstGame"
-run/main_scene="res://label.tscn"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [display]
 
 window/size/viewport_width=355
 window/size/viewport_height=200
-window/size/window_width_override=2130
-window/size/window_height_override=1200
+window/size/window_width_override=1065
+window/size/window_height_override=600
 window/stretch/mode="canvas_items"
 
 [input]

@@ -68,5 +68,9 @@ one_shot = true
 [node name="DashCooldown" type="Timer" parent="CharacterBody2D"]
 one_shot = true
 
+[node name="WallBounceTimer" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
 [connection signal="timeout" from="CharacterBody2D/CoyoteTimer" to="CharacterBody2D" method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="CharacterBody2D/WallBounceTimer" to="CharacterBody2D" method="_on_wall_bounce_timer_timeout"]
