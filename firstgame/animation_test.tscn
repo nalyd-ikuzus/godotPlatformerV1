@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://blnvw1wkqui5o"]
+
+[ext_resource type="Script" path="res://character_body_2d.gd" id="1_028b1"]
+[ext_resource type="Texture2D" uid="uid://ctg8kaofyvyt2" path="res://assets/run_animation/run-1.png" id="2_woway"]
+[ext_resource type="Texture2D" uid="uid://boq5vcuiabpmu" path="res://assets/run_animation/run-2.png" id="3_4m0ej"]
+[ext_resource type="Texture2D" uid="uid://f7ppq6tposf3" path="res://assets/run_animation/run-3.png" id="4_spo68"]
+[ext_resource type="Texture2D" uid="uid://dmjbvp0v4jo8b" path="res://assets/run_animation/run-4.png" id="5_0rktq"]
+[ext_resource type="Texture2D" uid="uid://bsxqpeln3s1sc" path="res://assets/run_animation/run-5.png" id="6_in8gl"]
+[ext_resource type="Texture2D" uid="uid://3s3bhc08q0yj" path="res://assets/run_animation/run-6.png" id="7_ddh1n"]
+[ext_resource type="Texture2D" uid="uid://dc5xsmui8iy8e" path="res://assets/run_animation/run-7.png" id="8_6iy30"]
+[ext_resource type="Texture2D" uid="uid://dxe0cypwhsjqp" path="res://assets/run_animation/run-8.png" id="9_kv150"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bptki"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_woway")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4m0ej")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_spo68")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0rktq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_in8gl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ddh1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6iy30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kv150")
+}],
+"loop": true,
+"name": &"run",
+"speed": 20.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_snqo0"]
+radius = 20.0
+height = 62.0
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(532, 355)
+script = ExtResource("1_028b1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_bptki")
+animation = &"run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, 7)
+shape = SubResource("CapsuleShape2D_snqo0")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+
+[node name="Button" type="Button" parent="CharacterBody2D"]
+offset_left = -571.0
+offset_top = -320.0
+offset_right = -453.0
+offset_bottom = -289.0
+focus_mode = 0
+text = "Reset Position"
+
+[node name="CoyoteTimer" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
+[connection signal="pressed" from="CharacterBody2D/Button" to="CharacterBody2D" method="_on_button_pressed"]
+[connection signal="timeout" from="CharacterBody2D/CoyoteTimer" to="CharacterBody2D" method="_on_coyote_timer_timeout"]

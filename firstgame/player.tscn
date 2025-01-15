@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://bm4j34ta538qf"]
+
+[ext_resource type="Script" path="res://character_body_2d.gd" id="1_snlkj"]
+[ext_resource type="Texture2D" uid="uid://ctg8kaofyvyt2" path="res://assets/run_animation/run-1.png" id="2_6r3t6"]
+[ext_resource type="Texture2D" uid="uid://boq5vcuiabpmu" path="res://assets/run_animation/run-2.png" id="3_cpb7f"]
+[ext_resource type="Texture2D" uid="uid://f7ppq6tposf3" path="res://assets/run_animation/run-3.png" id="4_araq2"]
+[ext_resource type="Texture2D" uid="uid://dmjbvp0v4jo8b" path="res://assets/run_animation/run-4.png" id="5_jj1gw"]
+[ext_resource type="Texture2D" uid="uid://bsxqpeln3s1sc" path="res://assets/run_animation/run-5.png" id="6_7gkc7"]
+[ext_resource type="Texture2D" uid="uid://3s3bhc08q0yj" path="res://assets/run_animation/run-6.png" id="7_n7cxn"]
+[ext_resource type="Texture2D" uid="uid://dc5xsmui8iy8e" path="res://assets/run_animation/run-7.png" id="8_kg6xy"]
+[ext_resource type="Texture2D" uid="uid://dxe0cypwhsjqp" path="res://assets/run_animation/run-8.png" id="9_c2s48"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bptki"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6r3t6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cpb7f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_araq2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_jj1gw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_7gkc7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_n7cxn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kg6xy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_c2s48")
+}],
+"loop": true,
+"name": &"run",
+"speed": 20.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_snqo0"]
+radius = 20.0
+height = 62.0
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_snlkj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_bptki")
+animation = &"run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, 7)
+shape = SubResource("CapsuleShape2D_snqo0")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+offset = Vector2(0, -25)
+
+[node name="CoyoteTimer" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="CharacterBody2D"]
+one_shot = true
+
+[connection signal="timeout" from="CharacterBody2D/CoyoteTimer" to="CharacterBody2D" method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="CharacterBody2D/DashCooldown" to="CharacterBody2D" method="_on_dash_cooldown_timeout"]
